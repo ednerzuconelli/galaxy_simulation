@@ -2,6 +2,7 @@
 
 #include<stdlib.h>
 
+
 /************************************************************/
 
 typedef struct x{
@@ -68,12 +69,14 @@ int main(){
 	
 	if(!grafo){
 	
-		puts("ERRO\n");system("pause");exit(0);
+		puts("ERRO\n");
+		//system("pause");
+		exit(0);
 	
 	}
 	
-	system("cls");
-	
+	//system("cls");
+
 	menu(grafo,tam);
 
 }
@@ -92,7 +95,7 @@ void menu(x *grafo, int tam){
 	
 	}
 	
-	system("cls");
+	//system("cls");
 	
 	do{
 	
@@ -126,9 +129,9 @@ void menu(x *grafo, int tam){
 			
 		}
 		
-		system("pause");
+	//	system("pause");
 		
-		system("cls");
+	//	system("cls");
 		
 	}while(op!=5);
 
