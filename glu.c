@@ -1,5 +1,8 @@
 /* programa teste-make.c */
-/* Desenha um quadrado preto em uma janela com fundo branco */
+/* Desenha um quadrado preto em uma janela com fundo branco 
+apt-get install freeglut3-dev
+gcc -o glu glu.c -lglut -lGLU -lGL -lm
+*/
 
 #include <GL/glut.h>
 #include <stdlib.h>
