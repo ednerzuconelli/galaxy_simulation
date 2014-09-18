@@ -50,9 +50,9 @@ void display(void){
 }
 void CriaPonto(float x, float y, float m){
 	int i;	
-	//for (i=v; i<t;i+2){
+	for (i=v; i<t;i+2){
 		glVertex3f((i/10),((t-i)/10),0.5f);
-	//}
+	}
 	
 }
 	
