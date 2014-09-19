@@ -1,5 +1,6 @@
 #include<stdio.h>
-#include<graphics.h>
+#include<GL/glut.h>
+#include<stdlib.h>
 
 void opengraph(void){
 
