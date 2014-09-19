@@ -11,7 +11,7 @@
 
 #define MAX 100;
 
-double G = -(pow(6.67,11));
+double G = (pow(6.67,11));
 typedef struct tipoPlaneta planeta;
 double deltaT = 0;
 
@@ -66,27 +66,29 @@ void calculaForca(int n){
 			aux = (G * lP[i].massa) * lP[j].massa;	
 			
 			forca = (aux/ pow(distancia,2));
-			direcaoX = lP[j].x - lP[i].x; 
-			direcaoY = lP[j].y - lP[i].y;
-			direcaoX2 = lP[i].x - lP[j].x;
-			direcaoY2 = lP[i].y - lP[j].y;
+			printf("força: %f", forca);		
+				direcaoX = lP[i].x - lP[j].x; 
+				
+				direcaoY = lP[i].x - lP[j].x; 
+			
 
-			if(lP[i].x<lP[j].x){
-				lP[i].fx = lP[i].fx + (cos (tan(direcaoY/direcaoX)));//(forca * direcaoX)/distancia; 
-				lP[j].fx = lP[j].fx - (cos (tan(direcaoY/direcaoX)));//(forca * direcaoX)/distancia;
+			if(lP[i].x < lP[j].x){
+				lP[i].fx = lP[i].fx + forca * (cos (tan(direcaoY/direcaoX)));//(forca * direcaoX)/distancia; 
+				lP[j].fx = lP[j].fx + (-1)*(forca * (cos (tan(direcaoY/direcaoX))));//(forca * direcaoX)/distancia;
 			}else{
-				lP[i].fx = lP[i].fx - (cos (tan(direcaoY/direcaoX)));//(forca * direcaoX)/distancia; 
-				lP[j].fx = lP[j].fx + (cos (tan(direcaoY/direcaoX)));//(forca * direcaoX)/distancia
+				lP[i].fx = lP[i].fx + (-1)*(forca * (cos (tan(direcaoY/direcaoX))));//(forca * direcaoX)/distancia; 
+				lP[j].fx = lP[j].fx + forca * (cos (tan(direcaoY/direcaoX)));//(forca * direcaoX)/distancia
 			
 			}
 
-			if(lP[i].y<lP[j].y){
-				lP[i].fy = lP[i].fy + (sin (tan(direcaoY/direcaoX)));//(forca * direcaoY)/distancia;
-				lP[j].fy = lP[j].fy - (sin (tan(direcaoY/direcaoX)));//(forca * direcaoY)/distancia;
+			if(lP[i].y < lP[j].y){
+				lP[i].fy = lP[i].fy + forca * (sin (tan(direcaoY/direcaoX)));//(forca * direcaoY)/distancia;
+				lP[j].fy = lP[j].fy + (-1)*(forca * (sin (tan(direcaoY/direcaoX))));//(forca * direcaoY)/distancia;
 			}else{
-				lP[i].fy = lP[i].fy - (sin (tan(direcaoY/direcaoX)));//(forca * direcaoY)/distancia;
-				lP[j].fy = lP[j].fy + (sin (tan(direcaoY/direcaoX)));//(forca * direcaoY)/distanci
+				lP[i].fy = lP[i].fy + (-1)*(forca * (sin (tan(direcaoY/direcaoX))));//(forca * direcaoY)/distancia;
+				lP[j].fy = lP[j].fy + forca * (sin (tan(direcaoY/direcaoX)));//(forca * direcaoY)/distanci
 			}
+
 		}
 	}
 }
@@ -112,8 +114,6 @@ void calculaVelocidade(int n){
 			lP[i].x = lP[i].x + dpx;
 			lP[i].y = lP[i].y + dpy;
 
-			lP[i].fx =0;
-			lP[i].fy =0;
 		
 	}
 }
@@ -125,7 +125,7 @@ int main(int argc, char** argv){
 	int i;
 	for(i =0;i<2;i++){
 		deltaT = time(NULL) - deltaT;
-		deltaT = deltaT/1000000000;
+		deltaT = deltaT/1000000000000;
 		calculaForca(2);
 		
 		
