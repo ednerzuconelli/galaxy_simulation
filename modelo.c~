@@ -138,7 +138,7 @@ int main(int argc, char** argv){
 	int i;
 	for(i =0;i<10;i++){
 		deltaT = time(NULL) - deltaT;
-		deltaT = deltaT/100000000000000;
+		deltaT = deltaT/1000000000000000;
 		calculaForca(quantidade);
 		calculaVelocidade(quantidade);
 		listarPlanetas(quantidade);

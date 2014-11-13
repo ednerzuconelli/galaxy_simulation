@@ -6,7 +6,9 @@
 #include <time.h>
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 #include <ncurses.h>
+#include "mpi.h"
 
 
 #define MAX 100;
@@ -143,7 +145,9 @@ int main(int argc, char** argv){
 	initscr();	
 		
 
-	quantidade = 2; 	
+	quantidade = 2; 
+	MPI_Status status;
+	MPI_Init(&argc,&argv);	
 	criaPlanetas(quantidade);
 	listarPlanetas(quantidade);
 	int i;
