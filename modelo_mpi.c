@@ -6,10 +6,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <math.h>
-#include <string.h>
-#include <ncurses.h>
-#include "mpi.h"
-
+#include <mpi.h>
 
 #define MAX 100;
 
@@ -26,31 +23,24 @@ int quantidade;
 planeta lP[999];
 
 
-void desenhaPlanetas(int n){
-	int i;
-	
-	for(i=0;i<n;i++){
-		move(lP[i].x,lP[i].y);
-		printf("*");	
-	}
-}
 
 
 
 //criar planetas.
 void criaPlanetas(int n){
-
+	
 	srand(time(NULL));
 	int i;
 	for(i=0;i<n;i++){
-			lP[i].x = rand() % 100;
-			lP[i].y = rand() % 100;
-			lP[i].massa = 1;
-			lP[i].fx = 0;
-			lP[i].fy = 0;
-			lP[i].vx = 0;
-			lP[i].vy = 0;	
+		lP[i].x = rand() % 100;
+		lP[i].y = rand() % 100;
+		lP[i].massa = 1;
+		lP[i].fx = 0;
+		lP[i].fy = 0;
+		lP[i].vx = 0;
+		lP[i].vy = 0;	
 	}
+	
 }
 
 //listar planetas
@@ -105,7 +95,7 @@ void calculaForca(int n){
 				double aux = (G * lP[i].massa) * lP[j].massa;	
 			
 				forca = (aux/ distancia);
-				//printf("força: %f", forca);
+				printf("força: %f", forca);
 		
 				lP[i].fx = lP[i].fx + forca * distanciaX;
 				lP[i].fy = lP[i].fy + forca * distanciaY;
@@ -142,13 +132,21 @@ void calculaVelocidade(int n){
 
 
 int main(int argc, char** argv){
-	initscr();	
-		
-
 	quantidade = 2; 
+	int myrank, size;	
+	printf("Nuemro de processadores0 = %d\n",size);
+	printf("Nuemro de rank do processador0 = %d\n",myrank);
+	
 	MPI_Status status;
+	
 	MPI_Init(&argc,&argv);	
-	criaPlanetas(quantidade);
+	MPI_Comm_rank(MPI_COMM_WORLD,&myrank);
+	MPI_Comm_size(MPI_COMM_WORLD,&size);
+	printf("Nuemro de processadores = %d\n",size);
+	printf("Nuemro de rank do processador = %d\n",myrank);
+	if (myrank==0) {
+		MPI_Send(&criaPlanetas,quantidade,MPI_UNSIGNED,1,99,MPI_COMM_WORLD);
+	}	
 	listarPlanetas(quantidade);
 	int i;
 	for(i =0;i<10;i++){
@@ -156,12 +154,8 @@ int main(int argc, char** argv){
 		deltaT = deltaT/1000000000000000;
 		calculaForca(quantidade);
 		calculaVelocidade(quantidade);
-		//listarPlanetas(quantidade);
+		listarPlanetas(quantidade);
 		verificaColisoes(quantidade);
-		desenhaPlanetas(quantidade);
-		getch();
 	}
-	
-	
-	endwin();	
+	MPI_Finalize();
 return 0;}

@@ -13,7 +13,7 @@
 
 double G = (pow(6.67,11));
 typedef struct tipoPlaneta planeta;
-double deltaT = 0;
+double deltaT = 0.0;
 
 struct tipoPlaneta{
 	double x,y,massa,fx,fy,vx,vy;

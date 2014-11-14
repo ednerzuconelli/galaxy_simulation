@@ -6,7 +6,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <math.h>
-
+#include "mpi.h"
 
 
 #define MAX 100;

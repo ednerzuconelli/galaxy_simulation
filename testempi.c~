@@ -1,0 +1,29 @@
+#include <mpi.h>
+#include <stdio.h>
+#include <string.h>
+
+int main(int argc, char *argv[]) {
+	int meu_rank, total_de_processos, rank_origem, rank_destino, tag = 50;
+	char mensagem[100];
+	MPI_Status status;
+	
+	MPI_Init(&argv, &argc);
+	MPI_Comm_size(MPI_COMM_WORLD, &total_de_processos);
+	MPI_Comm_rank(MPI_COMM_WORLD, &meu_rank);
+	
+	if (meu_rank != 0) {
+		sprintf(mensagem, "Eu sou o processo %d.\n", meu_rank);
+		rank_destino = 0;
+		MPI_Send(mensagem, strlen(mensagem) + 1, MPI_CHAR, rank_destino, tag,
+		MPI_COMM_WORLD);
+	} else {
+		for (rank_origem = 1; rank_origem < total_de_processos; rank_origem++) {
+			MPI_Recv(mensagem, 100, MPI_CHAR, rank_origem, tag,
+			MPI_COMM_WORLD, &status);
+			printf("%s\n", mensagem);
+		}
+	}
+	MPI_Finalize();
+	return 0;
+}
+
