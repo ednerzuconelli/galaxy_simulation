@@ -22,6 +22,11 @@ struct tipoPlaneta{
 	
 };
 
+typedef struct{
+
+}threads_arg;
+
+
 int quantidade;
 planeta lP[999];
 
@@ -134,7 +139,11 @@ void calculaVelocidade(int n,int f){
 
 
 int main(int argc, char** argv){
-	
+	int parc = quantidade/10;
 	pthread_t threads[10];	
+
+	for(int i=1;i<=quantidade;i++){
+			
+	}
 	
 return 0;}
