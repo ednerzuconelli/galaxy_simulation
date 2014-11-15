@@ -23,8 +23,9 @@ struct tipoPlaneta{
 };
 
 typedef struct{
-
-}threads_arg;
+	int i;
+	int tamanho;
+}threads_arg, *pth_pthread_arg;
 
 
 int quantidade;
@@ -35,11 +36,13 @@ planeta lP[999];
 
 
 //criar planetas.
-void criaPlanetas(int i,int f){
+void *criaPlanetas(void *args){
+
+	pth_pthread_arg targ = (pth_pthread_arg)args;
 
 	srand(time(NULL));
-	int j;
-	for(j=i;i<f;j++){
+	int i;
+	for(i=targ->i;i<(targ->tamanho+targ->i);i++){
 			lP[j].x = rand() % 100;
 			lP[j].y = rand() % 100;
 			lP[j].massa = 1;
@@ -141,9 +144,18 @@ void calculaVelocidade(int n,int f){
 int main(int argc, char** argv){
 	int parc = quantidade/10;
 	pthread_t threads[10];	
+	
+	threads_arg argumentos[10];
 
-	for(int i=1;i<=quantidade;i++){
-			
+	for(int i=0;i<10;i++){
+			argumento[i].i = i*10;
+			argumento[i].tamanho = parc;
+			pthread_create(&(threads[i]),NULL,criaPlanetas,&(argumentos[i]));
+	}
+	
+	for(int i=0;i<10;i++){
+		pthread_join(threads[i],NULL);
+		
 	}
 	
 return 0;}
