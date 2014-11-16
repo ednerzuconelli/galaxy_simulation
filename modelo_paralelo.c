@@ -1,5 +1,7 @@
 /* Nome: Willians Vieira Fujita        RA.: 51853
    Nome: Edner Zuconelli	       RA.: 54496
+   
+   gcc modelo_paralelo.c -lm -pthread -o executavel
 */
 
 #include <pthread.h>
@@ -54,10 +56,13 @@ void *criaPlanetas(void *args){
 }
 
 //listar planetas
-void listarPlanetas(int i,int f){
-	int j;
+void *listarPlanetas(void *args){
+	
+	pth_pthread_arg targ = (pth_pthread_arg)args;
+	
+	int i;
 	printf("\n\nListando Planetas: No tempo: %f \n",deltaT);
-	for(j=i;i<f;j++){
+	for(i=targ->i;i<(targ->tamanho+targ->i);i++){
 
 			printf("Planeta: %d -> x = %f , y = %f , massa = %f , fx = %f , fy = %f , vx = %f, vy= %f \n", i,lP[j].x,lP[j].y,lP[j].massa,lP[j].fx,lP[j].fy,lP[j].vx,lP[j].vy);
 
@@ -73,14 +78,17 @@ void tiraElemento(int i){
 }
 
 //Verifica Colisões
-void verificaColisoes(int i,int f){
-	int j,k,x;	
+void verificaColisoes(void *args){
+	
+	pth_pthread_arg targ = (pth_pthread_arg)args;
+	
+	int i,j;	
 
-	for(j=i;j<f;j++){
-		for(x=j+1;k<f-1;k++){
-			if(ceil(lP[j].x) == ceil(lP[k].x) && ceil(lP[j].y) == ceil(lP[k].y)){
-				lP[j].massa = lP[j].massa + lP[k].massa;
-				tiraElemento(k);
+	for(i=targ->i;i<(targ->tamanho+targ->i);i++){
+		for(j=i+1;j<(targ->tamanho+targ->i);j++){
+			if(ceil(lP[i].x) == ceil(lP[j].x) && ceil(lP[i].y) == ceil(lP[j].y)){
+				lP[i].massa = lP[i].massa + lP[j].massa;
+				tiraElemento(j);
 			}
 		}
 	}
@@ -88,12 +96,14 @@ void verificaColisoes(int i,int f){
 
 
 //Calcular força gravitacional
-void calculaForca(int n,int f){
+void calculaForca(void *args){
+	
+	pth_pthread_arg targ = (pth_pthread_arg)args;
 	int i,j;	
 	double distancia,forca,distanciaX,distanciaY;
 
-	for(i=n;i<f;i++){
-		for(j=n;j<f;j++){
+	for(i=targ->i;i<(targ->tamanho+targ->i);i++){
+		for(j=i+1;j<(targ->tamanho+targ->i);j++){
 			
 			if(i!=j){	
 					
