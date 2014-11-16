@@ -127,10 +127,12 @@ void calculaForca(void *args){
 
 
 //Calcular velocidade
-void calculaVelocidade(int n,int f){
+void calculaVelocidade(void *args){
+	
+	pth_pthread_arg targ = (pth_pthread_arg)args;
 	double dvx,dvy,dpx,dpy;	
 	int i;
-	for(i=n;i<f;i++){
+	for(i=targ->i;i<(targ->tamanho+targ->i);i++){
 		
 			dvx = (lP[i].fx/lP[i].massa)*deltaT;
 			dvy = (lP[i].fy/lP[i].massa)*deltaT;
